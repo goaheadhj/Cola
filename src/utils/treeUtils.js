@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 class Node {
-  constructor() {
-    super();
+  constructor(level) {
     this.id = _.uniqueId();
     this.children = [];
     this.parentId = -1;
+    this.level = level;
   }
 
   setParentId(id) {
@@ -22,12 +22,11 @@ class Node {
 }
 
 export function generateTree(depth, width) {
-  let node = new Node();
+  let node = new Node(depth);
   while (depth > 0) {
     for (let i = 0; i < width; i++) {
-      node.insertChild(new Node());
+      node.insertChild(generateTree(--depth, width));
     }
-    depth--;
   }
   return node;
 }
